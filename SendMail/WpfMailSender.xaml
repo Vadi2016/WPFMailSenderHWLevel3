@@ -6,16 +6,22 @@
         xmlns:local="clr-namespace:SendMail"
         mc:Ignorable="d"
         WindowStyle="None"
-        
-        Title="MainWindow" Height="350" Width="525">
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        Title="MainWindow" Height="600" Width="900">
     <Window.Resources>
         <Style TargetType="{x:Type local:WpfMailSender}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Window}">
-                        <Border Padding="20">
+                        <Border Padding="10">
                             <Grid>
-                                <Border x:Name="Container" Background="#2E2E2E"/>
+                                <Border Background="{StaticResource BackgroundDarkBrush}" x:Name="Container"/>
+                                <Border Background="#1E1E1E">
+                                    <Border.Effect>
+                                        <DropShadowEffect ShadowDepth="0" Opacity="0.2"/>
+                                    </Border.Effect>
+                                </Border>
                             </Grid>
                         </Border>
                     </ControlTemplate>
@@ -23,4 +29,14 @@
             </Setter>
         </Style>
     </Window.Resources>
+    <Border>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="500"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock  Width="200" Height="500"/>
+            <TextBlock Grid.RowSpan="1" Width="300"/>
+            </Grid>
+    </Border>
 </Window>
