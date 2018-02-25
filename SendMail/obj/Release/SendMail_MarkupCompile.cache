@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\yavad\source\repos\SendMail\SendMail\obj\Release\
+C:\Users\yavad\source\repos\WPFMailSenderHWLevel3\SendMail\obj\Release\
 SendMail
 none
 false
 TRACE
-C:\Users\yavad\source\repos\SendMail\SendMail\App.xaml
-1979439250
+C:\Users\yavad\source\repos\WPFMailSenderHWLevel3\SendMail\App.xaml
+32050419420
 
-101483126733
+11636644648
 13738642453
-WpfMailSender.xaml;
+ErrorWindow.xaml;Theme.xaml;WpfMailSender.xaml;
 
 True
 
