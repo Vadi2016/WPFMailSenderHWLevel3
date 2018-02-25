@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SendMail"
         mc:Ignorable="d"
-        Title="Erorr!!!" Height="300" Width="300">
+        Title="Erorr!!!" Height="300" Width="300"
+        WindowStartupLocation="CenterScreen">
+    
     <Grid>
        
         <Label x:Name="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 60">
