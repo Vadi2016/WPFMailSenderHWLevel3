@@ -7,21 +7,133 @@
         mc:Ignorable="d"
         WindowStyle="None"
         AllowsTransparency="True"
+        x:Name="AppWindow"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="600" Width="900">
+       
+        MinWidth ="800"
+        MinHeight="400"
+        Title="Welcome, friends!" Height="600" Width="900" >
     <Window.Resources>
+
         <Style TargetType="{x:Type local:WpfMailSender}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Window}">
-                        <Border Padding="10">
+                        <!-- Outer border with the dropshadow margin-->
+                        <Border Padding="{Binding OuterMarginSizeThickness, FallbackValue = 10}">
+
+                            <!-- Main window outline -->
                             <Grid>
-                                <Border Background="{StaticResource BackgroundDarkBrush}" x:Name="Container"/>
-                                <Border Background="#1E1E1E">
+
+                                <!-- Opacity mask for conners on the grid -->
+                                <Border x:Name="Container" 
+                                        Background="{StaticResource BackgroundDarkBrush}" 
+                                        CornerRadius="{Binding WindowCornerRadius, FallbackValue=50}"/>
+
+                                <!-- Window border and dropshadow -->
+                                <Border CornerRadius="{Binding WindowCornerRadius, FallbackValue = 50 }" 
+                                        Background="#1E1E1E">
                                     <Border.Effect>
-                                        <DropShadowEffect ShadowDepth="0" Opacity="0.2"/>
+                                        <DropShadowEffect ShadowDepth="0"
+                                                          Opacity="0.2"/>
                                     </Border.Effect>
                                 </Border>
+
+                                <!-- The main window content -->
+                                <Grid>
+
+                                    <!-- Corner clipping -->
+                                    <Grid.OpacityMask>
+                                        <VisualBrush Visual="{Binding ElementName=Container}"/>
+                                    </Grid.OpacityMask>
+
+
+
+                                    <Grid.RowDefinitions>
+                                        <!-- Title bar -->
+                                        <RowDefinition Height="{Binding TitleHeightGridLength, FallbackValue=42}"/>
+
+                                        <!-- Window content -->
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Title Bar -->
+                                    <Grid Grid.Column="0" Panel.ZIndex="1" Background="#2D2D30">
+                                        <Grid.ColumnDefinitions>
+                                            <!--Icon-->
+                                            <ColumnDefinition Width="Auto"/>
+                                            <!--Title-->
+                                            <ColumnDefinition Width="*"/>
+                                            <!--Windows Buttons-->
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Icon -->
+                                        <Button  Style="{StaticResource SystemIconButton}" 
+                                                 Command="{Binding MenuCommand}">
+                                            <Image Source="Images\logo.png"/>
+                                        </Button>
+
+                                        <!-- Title -->
+                                        <Viewbox Grid.Column="0" Grid.ColumnSpan="3" Margin="5" Stretch="Uniform">
+                                            <StackPanel>
+                                                <TextBlock FontFamily="{StaticResource LatoBold}" 
+                                                           FontSize="{StaticResource FontSizeRegular}"
+                                                           Margin="0, 0, 0, -5">
+                                                    <Run Text="M" 
+                                                         Foreground="{StaticResource WordOrangeBrush}"/>
+                                                    <Run Text="a"
+                                                         Foreground="{StaticResource WordBlueBrush}"/>
+                                                    <Run Text="i"
+                                                         Foreground="{StaticResource WordRedBrush}"/>
+                                                    <Run Text="l"
+                                                         Foreground="{StaticResource WordGreenBrush}"/>
+                                                    <Run Text="   "/>
+ 
+                                                    <Run Text="S" 
+                                                         Foreground="{StaticResource WordOrangeBrush}"/>
+                                                    <Run Text="e" 
+                                                         Foreground="{StaticResource WordBlueBrush}"/>
+                                                    <Run Text="n" 
+                                                         Foreground="{StaticResource WordRedBrush}"/>
+                                                    <Run Text="d" 
+                                                         Foreground="{StaticResource WordGreenBrush}"/>
+                                                    <Run Text="e" 
+                                                         Foreground="{StaticResource WordRedBrush}"/>
+                                                    <Run Text="R" 
+                                                         Foreground="Yellow"/>
+
+                                                </TextBlock>
+                                                <TextBlock Text="by Vadim" Foreground="{StaticResource ForegroundDarkBrush}" TextAlignment="Center"/>
+                                            </StackPanel>
+                                        </Viewbox>
+
+                                        <!-- Window buttons -->
+                                        <StackPanel Orientation="Horizontal" Grid.Column="2">
+                                            <Button Content="_" 
+                                                    Style="{StaticResource WindowControlButton}" 
+                                                    Command="{Binding MinimizeCommand}"/>
+                                            <Button Content="[ ]" 
+                                                    Style="{StaticResource WindowControlButton}" 
+                                                    Command="{Binding MaximizeCommand}"/>
+                                            <Button Content="X" 
+                                                    Style="{StaticResource CloseWindowButton}" 
+                                                    Command="{Binding CloseCommand}"/>
+                                        </StackPanel>
+                                    </Grid>
+
+
+
+                                    <!-- Page Content -->
+                                    <Border Grid.Row="1" Padding="{Binding InnerContentPadding}">
+
+                                        <ContentPresenter Content="{TemplateBinding Content}"/>
+
+
+                                    </Border>
+
+
+                                </Grid>
                             </Grid>
                         </Border>
                     </ControlTemplate>
@@ -29,6 +141,12 @@
             </Setter>
         </Style>
     </Window.Resources>
+    <WindowChrome.WindowChrome>
+        <WindowChrome ResizeBorderThickness="{Binding ResizeBorderThickness}" 
+                      CaptionHeight="{Binding TitleHeight}" 
+                      GlassFrameThickness="0"
+                      CornerRadius="0"/>
+    </WindowChrome.WindowChrome>
     <Border>
         <Grid>
             <Grid.RowDefinitions>

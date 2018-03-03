@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using static SendMail.WpfTestMailSender;
 
 namespace SendMail
@@ -23,30 +24,50 @@ namespace SendMail
         /// <param name="message">Сообщение</param>
         /// <param name="attachFile">Присоединенный файл</param>
         public static void SendMail()
+        { }
+
+          #region vars
+        private string strLogin; // email, c которого будет рассылаться почта
+        private string strPassword; // пароль к email, с которого будет рассылаться почта
+        private string strSmtp = "smtp.yandex.ru"; // smtp - server
+        private int iSmtpPort = 25; // порт для smtp-server
+        private string strBody; // текст письма для отправки
+        private string strSubject; // тема письма для отправки
+        #endregion
+        public EmailSendServiceClass(string sLogin, string sPassword)
         {
-            
-            try
-            {
-                MailMessage mail = new MailMessage();
-                mail.From = new MailAddress(mailFrom);
-                mail.To.Add(new MailAddress(mailTo));
-                mail.Subject = caption;
-                mail.Body = message;
-                if (!string.IsNullOrEmpty(attachFile))
-                    mail.Attachments.Add(new Attachment(attachFile));
-                SmtpClient client = new SmtpClient();
-                client.Host = smtpServer;
-                client.Port = 587;
-                client.EnableSsl = true;
-                client.Credentials = new NetworkCredential(mailFrom.Split('@')[0], password);
-                client.DeliveryMethod = SmtpDeliveryMethod.Network;
-                client.Send(mail);
-                mail.Dispose();
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Mail.Send: " + e.Message);
-            }
+            strLogin = sLogin;
+            strPassword = sPassword;
         }
-    }
+    
+    private void SendMail(string mail, string name) // Отправка email конкретному адресату
+        {
+            using (MailMessage mm = new MailMessage(strLogin, mail))
+            {
+                mm.Subject = strSubject;
+                mm.Body = "Hello world!";
+                mm.IsBodyHtml = false;
+                SmtpClient sc = new SmtpClient(strSmtp, iSmtpPort);
+                sc.EnableSsl = true;
+                sc.DeliveryMethod = SmtpDeliveryMethod.Network;
+                sc.UseDefaultCredentials = false;
+                sc.Credentials = new NetworkCredential(strLogin, strPassword);
+                try
+                {
+                    sc.Send(mm);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Невозможно отправить письмо " + ex.ToString());
+                }
+            }
+        }//private void SendMail(string mail, string name)
+        //public void SendMails(IQueryable<Emails2> emails)
+        //{
+        //    foreach (Emails2 email in emails)
+        //    {
+        //        SendMail(email.Email, email.Name);
+        //    }
+        //}
+    } //private void SendMail(string mail, string name)end: " + e.Message);
 }

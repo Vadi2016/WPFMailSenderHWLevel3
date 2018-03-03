@@ -23,6 +23,8 @@ namespace SendMail
         public WpfMailSender()
         {
             InitializeComponent();
+
+            DataContext = new WindowViewModel(this);
         }
     }
 }
